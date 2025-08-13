@@ -2,7 +2,6 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Mail, ExternalLink } from 'lucide-react';
-import Image from 'next/image';
 
 export default function Home() {
   const recentWork = [
@@ -49,12 +48,10 @@ export default function Home() {
         <section className="mb-12">
           <div className="flex items-start gap-6">
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#3a3a3a] border-2 border-[#5a5a5a] flex-shrink-0 overflow-hidden">
-              <Image 
+              <img 
                 src="/images/1A8586AB-ACAD-49FB-BA4E-69BF2CEBE2DA_1_105_c.jpeg" 
                 alt="Abhishek Bansal" 
                 className="w-full h-full object-cover scale-125"
-                width={160}
-                height={160}
               />
             </div>
             <div className="flex flex-col">
