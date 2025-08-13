@@ -49,7 +49,7 @@ export default function Home() {
           <div className="flex items-start gap-6">
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-[#3a3a3a] border-2 border-[#5a5a5a] flex-shrink-0 overflow-hidden">
               <img 
-                src="/images/1A8586AB-ACAD-49FB-BA4E-69BF2CEBE2DA_1_105_c.jpeg" 
+                src={`${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/1A8586AB-ACAD-49FB-BA4E-69BF2CEBE2DA_1_105_c.jpeg`}
                 alt="Abhishek Bansal" 
                 className="w-full h-full object-cover scale-125"
               />
