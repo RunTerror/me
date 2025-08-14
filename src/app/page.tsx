@@ -2,6 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Mail, ExternalLink } from 'lucide-react';
+import WorkGallery from '@/components/WorkGallery';
 
 export default function Home() {
   const recentWork = [
@@ -102,6 +103,9 @@ export default function Home() {
             </a>
           </div>
         </section>
+
+        {/* Work Gallery Section */}
+        <WorkGallery />
 
         {/* Best Work Section */}
         <section className="mb-12">
