@@ -2,36 +2,72 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Mail, ExternalLink } from 'lucide-react';
-import WorkGallery from '@/components/WorkGallery';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function Home() {
   const recentWork = [
-    {
-      name: 'Beacon',
-      description: 'Google Summer of Code work under CCExtractor - location sharing application',
-      logo: '',
-      url: 'https://github.com/CCExtractor/beacon'
-    },
     {
       name: 'Merlin AI',
       description: 'AI chat assistant application with 3 lakh+ downloads',
       logo: '',
       url: 'https://apps.apple.com/us/app/merlin-ai-ai-chat-assistant/id6453692447',
-      playStoreUrl: 'https://play.google.com/store/apps/details?id=com.foyer.merlin&hl=en_IN'
+      playStoreUrl: 'https://play.google.com/store/apps/details?id=com.foyer.merlin&hl=en_IN',
+      screenshots: [
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/Simulator Screenshot - iPhone 16 Pro - 2025-08-14 at 23.16.59.png`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.09.jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.09 (1).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.09 (2).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.12.jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.12 (1).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.12 (2).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.13.jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.13 (1).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.13 (2).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.14.jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/merlin/WhatsApp Image 2025-08-15 at 00.20.14 (1).jpeg`
+      ]
     },
     {
       name: 'AI Note Taker',
       description: 'Audio to text transcription app',
       logo: '',
       url: 'https://apps.apple.com/us/app/ai-note-taker-audio-to-text/id6743072579',
-      playStoreUrl: 'https://play.google.com/store/apps/details?id=com.foyer.notesai&hl=en_IN'
+      playStoreUrl: 'https://play.google.com/store/apps/details?id=com.foyer.notesai&hl=en_IN',
+      screenshots: [
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/notes/WhatsApp Image 2025-08-15 at 00.20.10.jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/notes/WhatsApp Image 2025-08-15 at 00.20.10 (1).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/notes/WhatsApp Image 2025-08-15 at 00.20.10 (2).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/notes/WhatsApp Image 2025-08-15 at 00.20.11 (1).jpeg`
+      ]
     },
     {
       name: 'PDF AI',
       description: 'PDF summarizer and chat application',
       logo: '',
       url: 'https://apps.apple.com/us/app/pdf-ai-pdf-summarizer-chat/id6477758769',
-      playStoreUrl: 'https://play.google.com/store/apps/details?id=com.foyer.pdfai&hl=en_IN'
+      playStoreUrl: 'https://play.google.com/store/apps/details?id=com.foyer.pdfai&hl=en_IN',
+      screenshots: [
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/pdf/WhatsApp Image 2025-08-15 at 00.20.11.jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/pdf/WhatsApp Image 2025-08-15 at 00.20.11 (2).jpeg`,
+        `${process.env.NODE_ENV === 'production' ? '/me' : ''}/images/pdf/WhatsApp Image 2025-08-15 at 00.20.11 (3).jpeg`
+      ]
+    },
+    {
+      name: 'Beacon',
+      description: 'Google Summer of Code work under CCExtractor - location sharing application',
+      logo: '',
+      url: 'https://github.com/CCExtractor/beacon',
+      screenshots: [
+        'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=1000&fit=crop',
+        'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=600&h=1000&fit=crop'
+      ]
     },
   ];
 
@@ -104,39 +140,106 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Work Gallery Section */}
-        <WorkGallery />
-
         {/* Best Work Section */}
         <section className="mb-12">
           <h2 className="text-lg font-extrabold mb-4 font-inter">Best Works</h2>
           <div className="space-y-3">
-            {recentWork.map((project, index) => (
-              <div key={index} className="group p-4 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg hover:bg-[#323232] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:border-[#5a5a5a]">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-base font-semibold text-[#f5f5dc] font-inter">{project.name}</h3>
-                  <div className="flex gap-2">
-                    <a href={project.url} target="_blank" rel="noopener noreferrer" className="group/link p-1.5 rounded-md hover:bg-[#3a3a3a] transition-colors">
-                      {project.playStoreUrl ? (
-                        <svg className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" viewBox="0 0 384 512" fill="currentColor">
-                          <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-81.9-19.1-40.8.9-78.2 24.4-99.1 61.6-42.3 75.1-10.9 186.2 30.4 247.2 20.2 29.9 44.3 63.5 76 62.3 31.2-1.2 43.1-19.2 81.2-19.2 37.5 0 48.8 19.2 81.9 18.5 33.8-.8 53.4-30.2 73.4-60.4 23.2-35.1 32.7-69.1 33.2-70.8-.7-.3-63.4-24.2-63.7-96.2zm-85.3-157.1c17.1-20.4 28.6-48.4 25.6-76.8-24.4 1.8-53.7 16.8-71.1 37.4-15.8 18.3-29.6 47.8-26 75.8 27.5 2.1 55.7-13.9 71.5-36.4z"/>
-                        </svg>
-                      ) : (
-                        <ExternalLink className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" />
-                      )}
-                    </a>
-                    {project.playStoreUrl && (
-                      <a href={project.playStoreUrl} target="_blank" rel="noopener noreferrer" className="group/link p-1.5 rounded-md hover:bg-[#3a3a3a] transition-colors">
-                        <svg className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" viewBox="0 0 512 512" fill="currentColor">
-                          <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
-                        </svg>
-                      </a>
-                    )}
+            {recentWork.map((project, index) => {
+              // Check if project has screenshots (not Beacon)
+              const hasScreenshots = project.screenshots && project.screenshots.length > 0 && project.name !== 'Beacon';
+              
+              if (hasScreenshots) {
+                return (
+                  <Dialog key={index}>
+                    <DialogTrigger asChild>
+                      <div className="group relative p-4 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg hover:bg-[#323232] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:border-[#5a5a5a] cursor-pointer overflow-hidden">
+                        {/* Hover image preview */}
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none">
+                          <img
+                            src={project.screenshots[0]}
+                            alt={`${project.name} Preview`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        
+                        {/* Card content */}
+                        <div className="relative z-10">
+                          <div className="flex items-start justify-between mb-3">
+                            <h3 className="text-base font-semibold text-[#f5f5dc] font-inter">{project.name}</h3>
+                            <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                              <a href={project.url} target="_blank" rel="noopener noreferrer" className="group/link p-1.5 rounded-md hover:bg-[#3a3a3a] transition-colors">
+                                {project.playStoreUrl ? (
+                                  <svg className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" viewBox="0 0 384 512" fill="currentColor">
+                                    <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-81.9-19.1-40.8.9-78.2 24.4-99.1 61.6-42.3 75.1-10.9 186.2 30.4 247.2 20.2 29.9 44.3 63.5 76 62.3 31.2-1.2 43.1-19.2 81.2-19.2 37.5 0 48.8 19.2 81.9 18.5 33.8-.8 53.4-30.2 73.4-60.4 23.2-35.1 32.7-69.1 33.2-70.8-.7-.3-63.4-24.2-63.7-96.2zm-85.3-157.1c17.1-20.4 28.6-48.4 25.6-76.8-24.4 1.8-53.7 16.8-71.1 37.4-15.8 18.3-29.6 47.8-26 75.8 27.5 2.1 55.7-13.9 71.5-36.4z"/>
+                                  </svg>
+                                ) : (
+                                  <ExternalLink className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" />
+                                )}
+                              </a>
+                              {project.playStoreUrl && (
+                                <a href={project.playStoreUrl} target="_blank" rel="noopener noreferrer" className="group/link p-1.5 rounded-md hover:bg-[#3a3a3a] transition-colors">
+                                  <svg className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" viewBox="0 0 512 512" fill="currentColor">
+                                    <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
+                                  </svg>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                          <p className="text-sm text-[#d4c4a8] font-inter">{project.description}</p>
+                        </div>
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="w-full w-[80%] max-h-[90vh] bg-[#1a1a1a] border-[#3a3a3a]">
+                      <DialogHeader>
+                        <DialogTitle className="text-[#f5f5dc] font-inter">{project.name} Screenshots</DialogTitle>
+                        <DialogDescription className="text-[#d4c4a8]">
+                          {project.description}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="flex gap-4 mt-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-track-[#2a2a2a] scrollbar-thumb-[#5a5a5a] hover:scrollbar-thumb-[#6a6a6a]">
+                        {project.screenshots?.map((screenshot, screenshotIndex) => (
+                          <div key={screenshotIndex} className="flex-shrink-0">
+                            <img
+                              src={screenshot}
+                              alt={`${project.name} Screenshot ${screenshotIndex + 1}`}
+                              className="h-[60vh] w-auto rounded-lg border border-[#3a3a3a] object-contain"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                );
+              } else {
+                // Regular card without dialog for Beacon
+                return (
+                  <div key={index} className="group p-4 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg hover:bg-[#323232] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:border-[#5a5a5a]">
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="text-base font-semibold text-[#f5f5dc] font-inter">{project.name}</h3>
+                      <div className="flex gap-2">
+                        <a href={project.url} target="_blank" rel="noopener noreferrer" className="group/link p-1.5 rounded-md hover:bg-[#3a3a3a] transition-colors">
+                          {project.playStoreUrl ? (
+                            <svg className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" viewBox="0 0 384 512" fill="currentColor">
+                              <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-81.9-19.1-40.8.9-78.2 24.4-99.1 61.6-42.3 75.1-10.9 186.2 30.4 247.2 20.2 29.9 44.3 63.5 76 62.3 31.2-1.2 43.1-19.2 81.2-19.2 37.5 0 48.8 19.2 81.9 18.5 33.8-.8 53.4-30.2 73.4-60.4 23.2-35.1 32.7-69.1 33.2-70.8-.7-.3-63.4-24.2-63.7-96.2zm-85.3-157.1c17.1-20.4 28.6-48.4 25.6-76.8-24.4 1.8-53.7 16.8-71.1 37.4-15.8 18.3-29.6 47.8-26 75.8 27.5 2.1 55.7-13.9 71.5-36.4z"/>
+                            </svg>
+                          ) : (
+                            <ExternalLink className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" />
+                          )}
+                        </a>
+                        {project.playStoreUrl && (
+                          <a href={project.playStoreUrl} target="_blank" rel="noopener noreferrer" className="group/link p-1.5 rounded-md hover:bg-[#3a3a3a] transition-colors">
+                            <svg className="w-4 h-4 text-[#f5f5dc] hover:text-white transition-colors group-hover/link:scale-110" viewBox="0 0 512 512" fill="currentColor">
+                              <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
+                            </svg>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                    <p className="text-sm text-[#d4c4a8] font-inter">{project.description}</p>
                   </div>
-                </div>
-                <p className="text-sm text-[#d4c4a8] font-inter">{project.description}</p>
-              </div>
-            ))}
+                );
+              }
+            })}
           </div>
         </section>
 

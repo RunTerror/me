@@ -63,7 +63,7 @@ export default function WorkGallery() {
 
   return (
     <section className="mb-12">
-      <h2 className="text-lg font-extrabold mb-6 font-inter">My Work</h2>
+      <h2 className="text-lg font-extrabold mb-2 font-inter">My Work</h2>
       <div className="h-80 w-full">
         <CircularGallery
           items={workImages.map(item => ({ image: item.image, text: item.text }))}
