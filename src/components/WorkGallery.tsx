@@ -1,35 +1,46 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
 import CircularGallery from '@/components/CircularGallery/CircularGallery';
+import {
+  MorphingDialog,
+  MorphingDialogTrigger,
+  MorphingDialogContent,
+  MorphingDialogTitle,
+  MorphingDialogImage,
+  MorphingDialogSubtitle,
+  MorphingDialogClose,
+  MorphingDialogDescription,
+  MorphingDialogContainer,
+} from '@/components/motion-primitives/morphing-dialog';
 
 const workImages = [
   {
-    image: `/images/work1.jpg`,
+    image: `https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop`,
     text: 'Mobile App Development',
     title: 'Cross-Platform Apps',
     description: 'Building beautiful, performant mobile applications using Flutter, Swift, and Kotlin with focus on user experience and clean architecture.'
   },
   {
-    image: `/images/work2.jpg`,
+    image: `https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=800&h=600&fit=crop`,
     text: 'UI/UX Design', 
     title: 'Modern Interface Design',
     description: 'Creating intuitive and visually appealing user interfaces that prioritize usability and aesthetic appeal across different platforms.'
   },
   {
-    image: `/images/work3.jpg`,
+    image: `https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop`,
     text: 'Backend Development',
     title: 'Scalable APIs', 
     description: 'Developing robust backend systems with Node.js, TypeScript, and modern databases to support mobile and web applications.'
   },
   {
-    image: `/images/work4.jpg`,
+    image: `https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop`,
     text: 'AI Integration',
     title: 'AI-Powered Features',
     description: 'Integrating artificial intelligence and machine learning capabilities into mobile applications to enhance user experience.'
   },
   {
-    image: `/images/work5.jpg`,
+    image: `https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop`,
     text: 'Cloud Solutions',
     title: 'Cloud Architecture',
     description: 'Implementing cloud-native solutions using Firebase, Supabase, and other modern cloud platforms for scalable applications.'
@@ -37,12 +48,16 @@ const workImages = [
 ];
 
 export default function WorkGallery() {
-  const [selectedImage, setSelectedImage] = useState<{ image: string; text: string; title: string; description: string } | null>(null);
-
   const handleImageClick = (item: { image: string; text: string }) => {
     const workItem = workImages.find(work => work.image === item.image);
     if (workItem) {
-      setSelectedImage(workItem);
+      // Find and trigger the corresponding dialog trigger
+      setTimeout(() => {
+        const triggerElement = document.querySelector(`[data-work-trigger="${workItem.image}"]`) as HTMLButtonElement;
+        if (triggerElement) {
+          triggerElement.click();
+        }
+      }, 0);
     }
   };
 
@@ -52,49 +67,73 @@ export default function WorkGallery() {
       <div className="h-80 w-full">
         <CircularGallery
           items={workImages.map(item => ({ image: item.image, text: item.text }))}
-          bend={2}
+          bend={0}
           textColor="#f5f5dc"
           borderRadius={0.05}
           font="bold 24px Inter"
           scrollSpeed={1.5}
           scrollEase={0.08}
           onItemClick={handleImageClick}
+          autoRotate={true}
+          autoRotateSpeed={0.1}
         />
       </div>
       
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-          onClick={() => setSelectedImage(null)}
+      {workImages.map((workItem) => (
+        <MorphingDialog
+          key={workItem.image}
+          transition={{
+            type: 'spring',
+            bounce: 0.05,
+            duration: 0.25,
+          }}
         >
-          <div 
-            className="relative max-w-2xl max-h-[90vh] bg-[#1a1a1a] border border-[#3a3a3a] rounded-2xl p-0 overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+          <MorphingDialogTrigger 
+            className="hidden"
+            style={{
+              borderRadius: '12px',
+            }}
+            data-work-trigger={workItem.image}
           >
-            <button 
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+            <div></div>
+          </MorphingDialogTrigger>
+          <MorphingDialogContainer>
+            <MorphingDialogContent
+              style={{
+                borderRadius: '24px',
+              }}
+              className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-[#3a3a3a] bg-[#1a1a1a] sm:w-[500px] max-w-2xl"
             >
-              ✕
-            </button>
-            <div className="aspect-[4/3] w-full">
-              <img
-                src={selectedImage.image}
-                alt={selectedImage.text}
-                className="w-full h-full object-cover rounded-t-2xl"
+              <MorphingDialogImage
+                src={workItem.image}
+                alt={workItem.text}
+                className="h-64 w-full object-cover"
               />
-            </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#f5f5dc] mb-2">
-                {selectedImage.title}
-              </h3>
-              <p className="text-[#d4c4a8] leading-relaxed">
-                {selectedImage.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+              <div className="p-6">
+                <MorphingDialogTitle className="text-2xl text-[#f5f5dc] font-bold">
+                  {workItem.title}
+                </MorphingDialogTitle>
+                <MorphingDialogSubtitle className="text-[#d4c4a8] mt-1">
+                  {workItem.text}
+                </MorphingDialogSubtitle>
+                <MorphingDialogDescription
+                  disableLayoutAnimation
+                  variants={{
+                    initial: { opacity: 0, scale: 0.8, y: 100 },
+                    animate: { opacity: 1, scale: 1, y: 0 },
+                    exit: { opacity: 0, scale: 0.8, y: 100 },
+                  }}
+                >
+                  <p className="mt-4 text-[#d4c4a8] leading-relaxed">
+                    {workItem.description}
+                  </p>
+                </MorphingDialogDescription>
+              </div>
+              <MorphingDialogClose className="text-[#f5f5dc]" />
+            </MorphingDialogContent>
+          </MorphingDialogContainer>
+        </MorphingDialog>
+      ))}
     </section>
   );
 }

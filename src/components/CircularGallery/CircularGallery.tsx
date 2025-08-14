@@ -424,6 +424,8 @@ interface AppConfig {
   scrollSpeed?: number;
   scrollEase?: number;
   onItemClick?: (item: { image: string; text: string }) => void;
+  autoRotate?: boolean;
+  autoRotateSpeed?: number;
 }
 
 class App {
@@ -438,6 +440,9 @@ class App {
   };
   onCheckDebounce: (...args: any[]) => void;
   onItemClick?: (item: { image: string; text: string }) => void;
+  autoRotate: boolean;
+  autoRotateSpeed: number;
+  isUserInteracting: boolean;
   renderer!: Renderer;
   gl!: GL;
   camera!: Camera;
@@ -469,6 +474,8 @@ class App {
       scrollSpeed = 2,
       scrollEase = 0.05,
       onItemClick,
+      autoRotate = true,
+      autoRotateSpeed = 0.5,
     }: AppConfig,
   ) {
     document.documentElement.classList.remove("no-js");
@@ -477,6 +484,9 @@ class App {
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
     this.onItemClick = onItemClick;
+    this.autoRotate = autoRotate;
+    this.autoRotateSpeed = autoRotateSpeed;
+    this.isUserInteracting = false;
     this.createRenderer();
     this.createCamera();
     this.createScene();
@@ -597,6 +607,7 @@ class App {
 
   onTouchDown(e: MouseEvent | TouchEvent) {
     this.isDown = true;
+    this.isUserInteracting = true;
     this.scroll.position = this.scroll.current;
     this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
   }
@@ -612,6 +623,10 @@ class App {
     this.isDown = false;
     this.handleClick();
     this.onCheck();
+    // Resume auto-rotation after a delay
+    setTimeout(() => {
+      this.isUserInteracting = false;
+    }, 3000);
   }
 
   handleClick() {
@@ -628,6 +643,7 @@ class App {
   }
 
   onWheel(e: Event) {
+    this.isUserInteracting = true;
     const wheelEvent = e as WheelEvent;
     const delta =
       wheelEvent.deltaY ||
@@ -636,6 +652,10 @@ class App {
     this.scroll.target +=
       (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
     this.onCheckDebounce();
+    // Resume auto-rotation after a delay
+    setTimeout(() => {
+      this.isUserInteracting = false;
+    }, 3000);
   }
 
   onCheck() {
@@ -667,6 +687,11 @@ class App {
   }
 
   update() {
+    // Auto-rotation logic
+    if (this.autoRotate && !this.isUserInteracting && !this.isDown) {
+      this.scroll.target += this.autoRotateSpeed;
+    }
+
     this.scroll.current = lerp(
       this.scroll.current,
       this.scroll.target,
@@ -730,6 +755,8 @@ interface CircularGalleryProps {
   scrollSpeed?: number;
   scrollEase?: number;
   onItemClick?: (item: { image: string; text: string }) => void;
+  autoRotate?: boolean;
+  autoRotateSpeed?: number;
 }
 
 export default function CircularGallery({
@@ -741,6 +768,8 @@ export default function CircularGallery({
   scrollSpeed = 2,
   scrollEase = 0.05,
   onItemClick,
+  autoRotate = true,
+  autoRotateSpeed = 0.5,
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -754,11 +783,13 @@ export default function CircularGallery({
       scrollSpeed,
       scrollEase,
       onItemClick,
+      autoRotate,
+      autoRotateSpeed,
     });
     return () => {
       app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, onItemClick]);
+  }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, onItemClick, autoRotate, autoRotateSpeed]);
   return (
     <div
       className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing"
